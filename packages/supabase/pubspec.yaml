@@ -9,14 +9,20 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  functions_client: 2.4.0
-  gotrue: 2.11.1
+  functions_client:
+    path: ../functions_client
+  gotrue:
+    path: ../gotrue
   http: '>=0.13.5 <2.0.0'
-  postgrest: 2.4.1
-  realtime_client: 2.4.1
-  storage_client: 2.3.0
+  postgrest:
+    path: ../postgrest
+  realtime_client:
+    path: ../realtime_client
+  storage_client:
+    path: ../storage_client
   rxdart: '>=0.27.5 <0.29.0'
-  yet_another_json_isolate: 2.0.3
+  yet_another_json_isolate:
+    path: ../yet_another_json_isolate
   logging: ^1.2.0
 
 dev_dependencies:

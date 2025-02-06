@@ -10,7 +10,8 @@ environment:
 
 dependencies:
   http: '>=0.13.0 <2.0.0'
-  yet_another_json_isolate: 2.0.3
+  yet_another_json_isolate:
+    path: ../yet_another_json_isolate
   meta: ^1.9.1
   logging: ^1.2.0
 

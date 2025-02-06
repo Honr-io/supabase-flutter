@@ -11,7 +11,8 @@ environment:
 dependencies:
   http: '>=0.13.4 <2.0.0'
   logging: ^1.2.0
-  yet_another_json_isolate: 2.0.3
+  yet_another_json_isolate:
+    path: ../yet_another_json_isolate
 
 dev_dependencies:
   lints: ^3.0.0
