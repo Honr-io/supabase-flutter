@@ -5,11 +5,17 @@ class AuthHttpClient extends BaseClient {
 
   final String _supabaseKey;
   final Future<String?> Function() _getAccessToken;
-  AuthHttpClient(this._supabaseKey, this._inner, this._getAccessToken);
+  final bool Function()? _isOnline;
+  AuthHttpClient(this._supabaseKey, this._inner, this._getAccessToken, this._isOnline);
 
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
-    final accessToken = await _getAccessToken();
+    String? accessToken;
+    if (_isOnline == null) {
+      accessToken = await _getAccessToken();
+    } else {
+      accessToken = _isOnline!() ? await _getAccessToken() : null;
+    }
     final authBearer = accessToken ?? _supabaseKey;
 
     request.headers.putIfAbsent("Authorization", () => 'Bearer $authBearer');
