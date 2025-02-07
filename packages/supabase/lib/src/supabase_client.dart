@@ -124,7 +124,7 @@ class SupabaseClient {
     Map<String, String>? headers,
     Client? httpClient,
     YAJsonIsolate? isolate,
-    bool Function()? isOnline,
+    Future<bool> Function()? isOnline,
   })  : _supabaseKey = supabaseKey,
         _restUrl = '$supabaseUrl/rest/v1',
         _realtimeUrl = '$supabaseUrl/realtime/v1'.replaceAll('http', 'ws'),

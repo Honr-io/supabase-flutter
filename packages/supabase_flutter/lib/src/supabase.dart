@@ -206,10 +206,15 @@ class Supabase with WidgetsBindingObserver {
       storageOptions: storageOptions,
       authOptions: authOptions,
       accessToken: accessToken,
-      isOnline: connectivityManager != null ? () => connectivityManager.isOnline : null,
+      isOnline: connectivityManager != null ? () => _isOnline(connectivityManager) : null,
     );
     _widgetsBindingInstance?.addObserver(this);
     _initialized = true;
+  }
+
+  Future<bool> _isOnline(ConnectivityManager connectivityManager) async {
+    await connectivityManager.checkIfOnline();
+    return connectivityManager.isOnline;
   }
 
   @override
