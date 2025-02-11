@@ -11,6 +11,7 @@ import 'package:supabase_flutter/src/flutter_go_true_client_options.dart';
 import 'package:supabase_flutter/src/local_storage.dart';
 import 'package:supabase_flutter/src/supabase_auth.dart';
 
+import 'connectivity_manager.dart';
 import 'version.dart';
 
 final _log = Logger('supabase.supabase_flutter');
@@ -81,6 +82,7 @@ class Supabase with WidgetsBindingObserver {
     PostgrestClientOptions postgrestOptions = const PostgrestClientOptions(),
     StorageClientOptions storageOptions = const StorageClientOptions(),
     FlutterAuthClientOptions authOptions = const FlutterAuthClientOptions(),
+    ConnectivityManager? connectivityManager,
     Future<String?> Function()? accessToken,
     bool? debug,
   }) async {
@@ -119,6 +121,7 @@ class Supabase with WidgetsBindingObserver {
       anonKey,
       httpClient: httpClient,
       customHeaders: headers,
+      connectivityManager: connectivityManager,
       realtimeClientOptions: realtimeClientOptions,
       authOptions: authOptions,
       postgrestOptions: postgrestOptions,
@@ -182,6 +185,7 @@ class Supabase with WidgetsBindingObserver {
     String supabaseAnonKey, {
     Client? httpClient,
     Map<String, String>? customHeaders,
+    ConnectivityManager? connectivityManager,
     required RealtimeClientOptions realtimeClientOptions,
     required PostgrestClientOptions postgrestOptions,
     required StorageClientOptions storageOptions,
@@ -202,9 +206,15 @@ class Supabase with WidgetsBindingObserver {
       storageOptions: storageOptions,
       authOptions: authOptions,
       accessToken: accessToken,
+      isOnline: connectivityManager != null ? () => _isOnline(connectivityManager) : null,
     );
     _widgetsBindingInstance?.addObserver(this);
     _initialized = true;
+  }
+
+  Future<bool> _isOnline(ConnectivityManager connectivityManager) async {
+    await connectivityManager.checkIfOnline();
+    return connectivityManager.isOnline;
   }
 
   @override

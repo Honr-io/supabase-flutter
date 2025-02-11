@@ -124,6 +124,7 @@ class SupabaseClient {
     Map<String, String>? headers,
     Client? httpClient,
     YAJsonIsolate? isolate,
+    Future<bool> Function()? isOnline,
   })  : _supabaseKey = supabaseKey,
         _restUrl = '$supabaseUrl/rest/v1',
         _realtimeUrl = '$supabaseUrl/realtime/v1'.replaceAll('http', 'ws'),
@@ -143,7 +144,7 @@ class SupabaseClient {
       authFlowType: authOptions.authFlowType,
     );
     _authHttpClient =
-        AuthHttpClient(_supabaseKey, httpClient ?? Client(), _getAccessToken);
+        AuthHttpClient(_supabaseKey, httpClient ?? Client(), _getAccessToken, isOnline);
     rest = _initRestClient();
     functions = _initFunctionsClient();
     storage = _initStorageClient(storageOptions.retryAttempts);
