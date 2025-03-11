@@ -31,7 +31,11 @@ class ConnectivityManager extends ChangeNotifier {
 
   Future<bool> _isDbAvailable() async {
       final supabaseHost = Uri.parse(Supabase.instance.client.rest.url).host;
-      final pingResult = await Ping(supabaseHost, count: 1).stream.first;
-      return pingResult.error == null;
+      try {
+        final pingResult = await Ping(supabaseHost, count: 1).stream.first;
+        return pingResult.error == null;
+      } catch (_) {
+        return false;
+      }
   }
 }
