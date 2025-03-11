@@ -6,8 +6,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class ConnectivityManager extends ChangeNotifier {
+  final String? url;
   late bool isOnline;
   Timer? _timer;
+
+  ConnectivityManager({this.url});
 
   Future<void> initAsync() async {
     await checkIfOnline(firstTime: true);
@@ -30,7 +33,7 @@ class ConnectivityManager extends ChangeNotifier {
   }
 
   Future<bool> _isDbAvailable() async {
-      final supabaseHost = Uri.parse(Supabase.instance.client.rest.url).host;
+      final supabaseHost = Uri.parse(url ?? Supabase.instance.client.rest.url).host;
       try {
         final pingResult = await Ping(supabaseHost, count: 1).stream.first;
         return pingResult.error == null;
